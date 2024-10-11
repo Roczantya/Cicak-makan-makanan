@@ -81,7 +81,11 @@ class SnakeGame {
     }
 
     // Check if the snake hits the wall
-    if (newHead.x < 0 || newHead.y < 0 || newHead.x >= width || newHead.y >= height || snake.contains(newHead)) {
+    if (newHead.x < 0 ||
+        newHead.y < 0 ||
+        newHead.x >= width ||
+        newHead.y >= height ||
+        snake.contains(newHead)) {
       gameOver = true;
       return;
     }
@@ -107,7 +111,6 @@ class SnakeGame {
           stdout.write('*'); // Head of the snake (kadal)
         } else if (snake.contains(Point(x, y))) {
           stdout.write('* *'); // Body of the snake (kadal)
-        } else if()
         } else if (food == Point(x, y)) {
           stdout.write('🍎'); // Food
         } else {
@@ -123,12 +126,13 @@ class SnakeGame {
     stdout.write('\x1B[2J'); // Clear terminal screen
     stdout.write('\x1B[H'); // Move cursor to top left corner
   }
-}
 
-void main() {
-  print('Start Snake Game! Control the snake with WASD keys.');
-  final width = stdout.terminalColumns - 1; // Reduce by 1 to avoid terminal limits
-  final height = stdout.terminalLines - 2; // Reduce line for score
-  final game = SnakeGame(width, height);
-  game.start();
+  void main() {
+    print('Start Snake Game! Control the snake with WASD keys.');
+    final width =
+        stdout.terminalColumns - 1; // Reduce by 1 to avoid terminal limits
+    final height = stdout.terminalLines - 2; // Reduce line for score
+    final game = SnakeGame(width, height);
+    game.start();
+  }
 }
