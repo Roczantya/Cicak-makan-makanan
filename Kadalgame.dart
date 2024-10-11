@@ -21,7 +21,7 @@ class SnakeGame {
     stdin.echoMode = false; // Disable echo for input
     stdin.lineMode = false; // Disable line mode to receive characters directly
 
-    Timer.periodic(Duration(milliseconds: 100), (timer) {
+    Timer.periodic(Duration(milliseconds: 30), (timer) {
       if (gameOver) {
         timer.cancel();
         stdout.write('\x1B[?25h'); // Shows the cursor back
@@ -110,7 +110,7 @@ class SnakeGame {
         if (snake.first == Point(x, y)) {
           stdout.write('*'); // Head of the snake (kadal)
         } else if (snake.contains(Point(x, y))) {
-          stdout.write('* *'); // Body of the snake (kadal)
+          stdout.write('*'); // Body of the snake (kadal)
         } else if (food == Point(x, y)) {
           stdout.write('🍎'); // Food
         } else {
