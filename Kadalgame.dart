@@ -21,15 +21,15 @@ class SnakeGame {
     stdin.echoMode = false; // Disable echo for input
     stdin.lineMode = false; // Disable line mode to receive characters directly
 
-    Timer.periodic(Duration(milliseconds: 30), (timer) {
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
       if (gameOver) {
         timer.cancel();
         stdout.write('\x1B[?25h'); // Shows the cursor back
         _clearScreen(); // Clear screen before showing Game Over
         print('Game Over! Final Score: ${snake.length - 1}');
       } else {
-        _update();
-        _render();
+        _update(); // Update snake position
+        _render(); // Render the game state
       }
     });
 
@@ -47,19 +47,46 @@ class SnakeGame {
   }
 
   void _handleInput(String input) {
-    switch (input) {
-      case 'w':
-        if (direction != Direction.down) direction = Direction.up;
-        break;
-      case 's':
-        if (direction != Direction.up) direction = Direction.down;
-        break;
-      case 'a':
-        if (direction != Direction.right) direction = Direction.left;
-        break;
-      case 'd':
-        if (direction != Direction.left) direction = Direction.right;
-        break;
+    // Handle special key inputs
+    if (input.length == 1) {
+      switch (input) {
+        case 'w':
+          if (direction != Direction.down) direction = Direction.up;
+          break;
+        case 's':
+          if (direction != Direction.up) direction = Direction.down;
+          break;
+        case 'a':
+          if (direction != Direction.right) direction = Direction.left;
+          break;
+        case 'd':
+          if (direction != Direction.left) direction = Direction.right;
+          break;
+      }
+    } else if (input.length > 1) {
+      // Handle arrow keys (escape sequences)
+      if (input[0] == '\x1B') {
+        if (input.length > 2 && input[1] == '[') {
+          switch (input[2]) {
+            case 'A':
+              if (direction != Direction.down)
+                direction = Direction.up; // Up arrow
+              break;
+            case 'B':
+              if (direction != Direction.up)
+                direction = Direction.down; // Down arrow
+              break;
+            case 'D':
+              if (direction != Direction.right)
+                direction = Direction.left; // Left arrow
+              break;
+            case 'C':
+              if (direction != Direction.left)
+                direction = Direction.right; // Right arrow
+              break;
+          }
+        }
+      }
     }
   }
 
@@ -96,6 +123,7 @@ class SnakeGame {
     // Check if the snake eats the food
     if (newHead == food) {
       _placeFood(); // If it eats the food, place new food
+      // Do not remove the tail, the snake grows
     } else {
       snake.removeLast(); // Remove tail if not eating
     }
