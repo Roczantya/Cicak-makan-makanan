@@ -126,13 +126,13 @@ class SnakeGame {
     stdout.write('\x1B[2J'); // Clear terminal screen
     stdout.write('\x1B[H'); // Move cursor to top left corner
   }
+}
 
-  void main() {
-    print('Start Snake Game! Control the snake with WASD keys.');
-    final width =
-        stdout.terminalColumns - 1; // Reduce by 1 to avoid terminal limits
-    final height = stdout.terminalLines - 2; // Reduce line for score
-    final game = SnakeGame(width, height);
-    game.start();
-  }
+void main() {
+  print('Start Snake Game! Control the snake with WASD keys.');
+  final width =
+      stdout.terminalColumns - 1; // Reduce by 1 to avoid terminal limits
+  final height = stdout.terminalLines - 2; // Reduce line for score
+  final game = SnakeGame(width, height);
+  game.start();
 }
